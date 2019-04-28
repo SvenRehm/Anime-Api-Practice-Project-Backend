@@ -29,6 +29,10 @@ const User = db.Model.extend({
    hasSecurePassword: true
 })
 
+const Anime = db.Model.extend({
+   tableName: "animelist"
+})
+
 const opts = {
    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
    secretOrKey: process.env.SECRET_OR_KEY
@@ -109,6 +113,24 @@ app.post("/getToken", (req, res) => {
       })
 })
 
+app.get("/getAnimeToken", (req, res) => {
+   // const { id } = req.body
+
+   let id = req.query.id
+
+   console.log(id)
+   if (!id) {
+      return res.status(401).send({ message: "No id to compare to" })
+   }
+   knexDb
+      .where("id", "=", id)
+      .select("*")
+      .from("animelist")
+      .then(user => {
+         res.json(user)
+      })
+      .catch(err => res.status(400).json("unable to get animelist"))
+})
 app.get(
    "/protected",
    passport.authenticate("jwt", { session: false }),
@@ -136,22 +158,6 @@ app.get(
          })
    }
 )
-// app.put("/addplaylist", (req, res) => {
-//   const { id, animeid } = req.body
-//   knexDb("login_user")
-//     .where("id", "=", id)
-//     .update({
-//       animelist: knexDb.raw("array_append(animelist, ?)", [animeid])
-// animelist2: knexDb.raw(`jsonb_set(??, '{animelist}', ?)`, ['animelist2', req.body.animelist])
-//     })
-
-//     .returning("animelist")
-//     .then(animelist => {
-//       res.json(animelist[0])
-//     })
-//     .catch(err => res.status(400).json("unable to get animelist"))
-
-// })
 
 app.put("/addplaylist", (req, res) => {
    const { id, anime_id, status, episodes_watched, notes } = req.body
@@ -202,24 +208,6 @@ app.delete("/removefromplaylist", (req, res) => {
       })
       .catch(err => res.status(400).json("unable to get animelist"))
 })
-// app.delete("/removefromplaylist", (req, res) => {
-//   const { id, animeid } = req.body
-
-//   knexDb("login_user")
-//     .where("id", "=", id)
-
-//     .update({
-//       animelist: knexDb.raw(`array_remove(animelist, ${animeid})`)
-//     })
-
-//     .returning("animelist")
-//     .then(animelist => {
-//       res.json(animelist[0])
-//     })
-
-//     .catch(err =>  res.status(400).json("unable to get animelist"))
-
-// })
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT)
