@@ -57,12 +57,12 @@ app.use(parser.json())
 
 app.get("/", (req, res) => {
    // res.send(knexDb.database)
-   knexDb
-      .select("id", "username", "animelist", "email", "joined", "animelist2")
-      .from("login_user")
-      .then(user => {
-         res.json(user)
-      })
+   // knexDb
+   //    .select("id", "username", "animelist", "email", "joined", "animelist2")
+   //    .from("login_user")
+   //    .then(user => {
+   //       res.json(user)
+   //    })
 })
 
 app.post("/register", (req, res) => {
