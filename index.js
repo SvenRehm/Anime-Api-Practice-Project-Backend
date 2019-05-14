@@ -9,22 +9,22 @@ const JwtStrategy = passportJWT.Strategy
 const ExtractJwt = passportJWT.ExtractJwt
 const parser = require("body-parser")
 const knex = require("knex")
-// const knexDb = knex({
-//    client: "pg",
-//    connection: {
-//       host: "postgresql-round-18343",
-//       user: "postgres",
-//       password: "Becher167!",
-//       database: "animebrain"
-//    }
-// })
 const knexDb = knex({
    client: "pg",
    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: true
+      host: "127.0.0.1",
+      user: "postgres",
+      password: "Becher167!",
+      database: "animebrain"
    }
 })
+// const knexDb = knex({
+//    client: "pg",
+//    connection: {
+//       connectionString: process.env.DATABASE_URL,
+//       ssl: true
+//    }
+// })
 const bookshelf = require("bookshelf")
 const securePassword = require("bookshelf-secure-password")
 
@@ -63,13 +63,13 @@ app.use(
 app.use(parser.json())
 
 app.get("/", (req, res) => {
-   // res.send(knexDb.database)
-   // knexDb
-   //    .select("id", "username", "animelist", "email", "joined", "animelist2")
-   //    .from("login_user")
-   //    .then(user => {
-   //       res.json(user)
-   //    })
+   res.send(knexDb.database)
+   knexDb
+      .select("id", "username", "email", "joined")
+      .from("login_user")
+      .then(user => {
+         res.json(user)
+      })
 })
 
 app.post("/register", (req, res) => {
@@ -153,18 +153,18 @@ app.get(
    }
 )
 
-app.get(
-   "/animelist",
-   passport.authenticate("jwt", { session: false }),
-   (req, res) => {
-      knexDb
-         .select("*")
-         .from("animelist")
-         .then(animelist => {
-            res.json(animelist)
-         })
-   }
-)
+// app.get(
+//    "/animelist",
+//    passport.authenticate("jwt", { session: false }),
+//    (req, res) => {
+//       knexDb
+//          .select("*")
+//          .from("animelist")
+//          .then(animelist => {
+//             res.json(animelist)
+//          })
+//    }
+// )
 
 app.put("/addplaylist", (req, res) => {
    const { id, anime_id, status, episodes_watched, notes } = req.body
