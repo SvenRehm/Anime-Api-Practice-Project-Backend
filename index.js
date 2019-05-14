@@ -18,6 +18,7 @@ const knexDb = knex({
       database: "animebrain"
    }
 })
+
 const bookshelf = require("bookshelf")
 const securePassword = require("bookshelf-secure-password")
 
@@ -58,7 +59,7 @@ app.use(parser.json())
 app.get("/", (req, res) => {
    // res.send(knexDb.database)
    knexDb
-      .select("id", "username", "animelist", "email", "joined", "animelist2")
+      .select("id", "username", "email", "joined")
       .from("login_user")
       .then(user => {
          res.json(user)
