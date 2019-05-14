@@ -118,13 +118,13 @@ app.get("/getAnimeToken", (req, res) => {
 
    let id = req.query.id
 
-   console.log(id)
    if (!id) {
       return res.status(401).send({ message: "No id to compare to" })
    }
    knexDb
       .where("id", "=", id)
       .select("*")
+      .orderBy("episodes_watched", "desc")
       .from("animelist")
       .then(user => {
          res.json(user)
@@ -178,6 +178,7 @@ app.put("/addplaylist", (req, res) => {
       .catch(err => res.status(400).json("unable to get animelist"))
    // .catch(err=>console.log(err))
 })
+
 app.put("/update", (req, res) => {
    const { id, anime_id, status, episodes_watched, notes } = req.body
    knexDb("animelist")
@@ -185,7 +186,8 @@ app.put("/update", (req, res) => {
       .where("anime_id", "=", anime_id)
       .update({
          status: status,
-         episodes_watched: episodes_watched
+         episodes_watched: episodes_watched,
+         notes: notes
       })
 
       .returning("*")
