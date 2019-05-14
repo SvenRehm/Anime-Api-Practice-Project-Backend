@@ -9,22 +9,23 @@ const JwtStrategy = passportJWT.Strategy
 const ExtractJwt = passportJWT.ExtractJwt
 const parser = require("body-parser")
 const knex = require("knex")
-const knexDb = knex({
-   client: "pg",
-   connection: {
-      host: "127.0.0.1",
-      user: "postgres",
-      password: "Becher167!",
-      database: "animebrain"
-   }
-})
 // const knexDb = knex({
 //    client: "pg",
 //    connection: {
-//       connectionString: process.env.DATABASE_URL,
-//       ssl: true
+//       host: "127.0.0.1",
+//       user: "postgres",
+//       password: "Becher167!",
+//       database: "animebrain"
 //    }
 // })
+
+const knexDb = knex({
+   client: "pg",
+   connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: true
+   }
+})
 const bookshelf = require("bookshelf")
 const securePassword = require("bookshelf-secure-password")
 
