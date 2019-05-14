@@ -22,8 +22,7 @@ const knex = require("knex")
 const knexDb = knex({
    client: "pg",
    connection: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: true
+      connectionString: process.env.DATABASE_URL
    }
 })
 const bookshelf = require("bookshelf")
