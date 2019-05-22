@@ -108,7 +108,6 @@ app.post("/getToken", (req, res) => {
                const payload = { id: user.id }
                const token = jwt.sign(payload, process.env.SECRET_OR_KEY)
                res.send(token)
-               res.send({ message: "Logged In" })
             })
             .catch(err => {
                return res
