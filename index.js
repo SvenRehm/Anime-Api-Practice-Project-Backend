@@ -37,10 +37,6 @@ const User = db.Model.extend({
    hasSecurePassword: true
 })
 
-const Anime = db.Model.extend({
-   tableName: "animelist"
-})
-
 const opts = {
    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
    secretOrKey: process.env.SECRET_OR_KEY
@@ -112,6 +108,7 @@ app.post("/getToken", (req, res) => {
                const payload = { id: user.id }
                const token = jwt.sign(payload, process.env.SECRET_OR_KEY)
                res.send(token)
+               res.send({ message: "Logged In" })
             })
             .catch(err => {
                return res
@@ -183,8 +180,8 @@ app.put("/addplaylist", (req, res) => {
       .then(animelist2 => {
          res.json(animelist2[0])
       })
-      .catch(err => res.status(400).json("unable to get animelist"))
-   // .catch(err=>console.log(err))
+      // .catch(err => res.status(400).json("unable to get animelist"))
+      .catch(err => console.log(err))
 })
 
 app.put("/update", (req, res) => {
@@ -221,4 +218,4 @@ app.delete("/removefromplaylist", (req, res) => {
 
 //hi
 const PORT = process.env.PORT || 5000
-app.listen(PORT)
+app.listen(PORT, () => console.log("server started"))
