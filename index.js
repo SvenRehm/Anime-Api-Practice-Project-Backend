@@ -100,7 +100,7 @@ app.post("/getToken", (req, res) => {
       .fetch()
       .then(result => {
          if (!result) {
-            return res.status(400).send("user not found")
+            return res.status(400).send({ message: "user not found" })
          }
          result
             .authenticate(req.body.password)
