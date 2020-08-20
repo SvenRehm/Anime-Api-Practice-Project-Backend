@@ -12,7 +12,7 @@
       "nodemon": "^1.19.0"
    },
    "dependencies": {
-      "bcrypt": "^3.0.4",
+      "bcrypt": "^5.0.0",
       "body-parser": "^1.18.3",
       "bookshelf": "^0.14.2",
       "bookshelf-secure-password": "^3.1.0",
